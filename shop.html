@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+<title>Arcade-PS | Shop</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#07050f;
+  --surface:rgba(255,255,255,.04);
+  --surface2:rgba(255,255,255,.08);
+  --border:rgba(255,255,255,.09);
+  --cyan:#00f5d4;
+  --pink:#ff2d78;
+  --yellow:#ffe234;
+  --purple:#b94bff;
+  --green:#25d366;
+  --text:#e8e2ff;
+  --muted:#7a7099;
+  --glow-c:0 0 20px rgba(0,245,212,.35),0 0 40px rgba(0,245,212,.15);
+}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Outfit',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  min-height:100vh;
+  overflow-x:hidden;
+  background:
+    radial-gradient(ellipse 60% 40% at 50% 0%, rgba(0,245,212,.08), transparent),
+    radial-gradient(ellipse 40% 40% at 90% 60%, rgba(185,75,255,.07), transparent),
+    #07050f;
+}
+body::before{
+  content:"";position:fixed;inset:0;
+  background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.15) 2px,rgba(0,0,0,.15) 4px);
+  pointer-events:none;z-index:9999;
+}
+
+/* ─── HEADER ─── */
+.site-header{
+  position:sticky;top:0;z-index:100;
+  background:rgba(7,5,15,.88);
+  backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);
+}
+.header-inner{
+  max-width:1200px;margin:0 auto;
+  padding:0 20px;height:68px;
+  display:flex;align-items:center;gap:14px;
+}
+.brand{display:flex;align-items:center;gap:11px;text-decoration:none}
+.brand-icon{
+  width:38px;height:38px;
+  background:linear-gradient(135deg,var(--cyan),var(--purple));
+  border-radius:10px;display:grid;place-items:center;
+  font-family:'Press Start 2P',monospace;font-size:12px;color:#07050f;
+  box-shadow:0 0 18px rgba(0,245,212,.5);flex-shrink:0;
+}
+.brand-name{font-family:'Press Start 2P',monospace;font-size:13px;color:var(--cyan);text-shadow:0 0 12px rgba(0,245,212,.6)}
+.brand-sub{font-size:8px;color:var(--muted);font-family:'Press Start 2P',monospace}
+.header-right{margin-left:auto;display:flex;align-items:center;gap:10px}
+.back-btn{
+  padding:9px 16px;background:var(--surface2);border:1px solid var(--border);
+  border-radius:8px;color:var(--text);text-decoration:none;font-size:13px;font-weight:600;
+  transition:border-color .15s;
+}
+.back-btn:hover{border-color:rgba(0,245,212,.3);color:var(--cyan)}
+.growid-badge{
+  display:flex;align-items:center;gap:8px;
+  padding:8px 14px;
+  background:rgba(0,245,212,.08);
+  border:1px solid rgba(0,245,212,.2);
+  border-radius:8px;font-size:13px;font-weight:600;color:var(--cyan);
+}
+.growid-badge .dot{width:7px;height:7px;background:var(--cyan);border-radius:50%;animation:pulse 1.6s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+/* ─── MAIN ─── */
+.page{max-width:1200px;margin:0 auto;padding:40px 20px 80px}
+
+/* ─── VERIFY GATE ─── */
+.verify-gate{
+  max-width:480px;margin:60px auto;
+  background:var(--surface);
+  border:1px solid rgba(0,245,212,.2);
+  border-radius:20px;padding:36px;
+  text-align:center;
+}
+.gate-icon{font-size:48px;margin-bottom:16px;display:block}
+.gate-title{
+  font-family:'Press Start 2P',monospace;
+  font-size:14px;color:#fff;line-height:1.7;margin-bottom:10px;
+}
+.gate-desc{font-size:14px;color:var(--muted);line-height:1.7;margin-bottom:24px}
+.input-row{display:flex;gap:10px;margin-bottom:12px}
+.growid-input{
+  flex:1;padding:13px 16px;
+  background:rgba(255,255,255,.06);
+  border:1px solid var(--border);border-radius:10px;
+  color:var(--text);font-size:15px;font-family:'Outfit',sans-serif;
+  outline:none;transition:border-color .15s;
+}
+.growid-input:focus{border-color:rgba(0,245,212,.4)}
+.growid-input::placeholder{color:var(--muted)}
+.verify-btn{
+  padding:13px 22px;background:var(--cyan);color:#07050f;
+  border:none;border-radius:10px;font-weight:700;font-size:14px;
+  cursor:pointer;transition:box-shadow .2s,transform .15s;white-space:nowrap;
+}
+.verify-btn:hover{box-shadow:var(--glow-c);transform:translateY(-1px)}
+.verify-btn:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none}
+.gate-error{
+  font-size:13px;color:var(--pink);font-weight:600;
+  margin-top:6px;min-height:20px;
+}
+.gate-note{font-size:12px;color:var(--muted);margin-top:12px;line-height:1.6}
+
+/* ─── SHOP ─── */
+.shop-header{margin-bottom:32px}
+.shop-welcome{
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;
+  margin-bottom:24px;
+}
+.shop-welcome-text h1{
+  font-family:'Press Start 2P',monospace;
+  font-size:clamp(13px,2vw,20px);color:#fff;line-height:1.6;margin-bottom:6px;
+}
+.shop-welcome-text p{font-size:14px;color:var(--muted)}
+.change-btn{
+  padding:9px 16px;background:var(--surface2);border:1px solid var(--border);
+  border-radius:8px;color:var(--muted);font-size:13px;font-weight:600;cursor:pointer;
+  transition:border-color .15s,color .15s;
+}
+.change-btn:hover{border-color:rgba(0,245,212,.3);color:var(--cyan)}
+
+/* ─── CATEGORY TABS ─── */
+.tabs{
+  display:flex;flex-wrap:wrap;gap:8px;margin-bottom:28px;
+}
+.tab{
+  padding:9px 18px;border-radius:999px;
+  border:1px solid var(--border);
+  background:var(--surface);color:var(--muted);
+  font-size:13px;font-weight:600;cursor:pointer;
+  transition:all .15s;
+}
+.tab:hover{border-color:rgba(0,245,212,.3);color:var(--cyan)}
+.tab.active{background:var(--cyan);border-color:var(--cyan);color:#07050f}
+
+/* ─── PRODUCT GRID ─── */
+.product-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+  gap:16px;
+}
+.product-card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:16px;padding:20px;
+  display:flex;flex-direction:column;gap:12px;
+  transition:border-color .2s,transform .2s;
+  position:relative;overflow:hidden;
+}
+.product-card:hover{border-color:rgba(0,245,212,.3);transform:translateY(-3px)}
+.product-card::before{
+  content:"";position:absolute;top:0;left:0;right:0;height:2px;
+  background:var(--card-accent,linear-gradient(90deg,var(--cyan),var(--purple)));
+}
+.product-badge{
+  display:inline-flex;align-items:center;gap:5px;
+  padding:3px 9px;border-radius:999px;
+  font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+  background:var(--badge-bg,rgba(0,245,212,.1));
+  color:var(--badge-color,var(--cyan));
+  border:1px solid var(--badge-border,rgba(0,245,212,.25));
+  width:fit-content;
+}
+.product-icon{font-size:36px;display:block;margin-bottom:4px}
+.product-name{font-size:15px;font-weight:700;color:#fff}
+.product-desc{font-size:12.5px;color:var(--muted);line-height:1.6;flex:1}
+.product-price{
+  font-family:'Press Start 2P',monospace;
+  font-size:13px;color:var(--yellow);
+  text-shadow:0 0 8px rgba(255,226,52,.3);
+}
+.buy-btn{
+  width:100%;padding:11px;
+  background:var(--cyan);color:#07050f;
+  border:none;border-radius:10px;
+  font-weight:700;font-size:13px;cursor:pointer;
+  transition:box-shadow .2s,transform .15s;
+}
+.buy-btn:hover{box-shadow:var(--glow-c);transform:translateY(-1px)}
+
+/* ─── MODAL ─── */
+.modal-overlay{
+  position:fixed;inset:0;
+  background:rgba(0,0,0,.75);
+  z-index:300;
+  display:flex;align-items:center;justify-content:center;
+  padding:20px;
+  opacity:0;pointer-events:none;transition:opacity .2s;
+}
+.modal-overlay.open{opacity:1;pointer-events:all}
+.modal{
+  background:#0f0c1e;
+  border:1px solid rgba(0,245,212,.2);
+  border-radius:20px;padding:28px;
+  max-width:400px;width:100%;
+  transform:translateY(20px);transition:transform .2s;
+}
+.modal-overlay.open .modal{transform:translateY(0)}
+.modal-title{
+  font-family:'Press Start 2P',monospace;font-size:12px;color:#fff;
+  line-height:1.7;margin-bottom:8px;
+}
+.modal-product{font-size:14px;color:var(--muted);margin-bottom:20px;line-height:1.6}
+.modal-price{
+  font-family:'Press Start 2P',monospace;font-size:16px;color:var(--yellow);
+  margin-bottom:20px;display:block;
+}
+.modal-note{
+  font-size:12px;color:var(--muted);background:rgba(0,245,212,.05);
+  border:1px solid rgba(0,245,212,.1);border-radius:8px;
+  padding:10px 12px;line-height:1.6;margin-bottom:18px;
+}
+.modal-btns{display:flex;gap:10px}
+.modal-cancel{
+  flex:1;padding:12px;background:var(--surface2);border:1px solid var(--border);
+  border-radius:10px;color:var(--text);font-weight:600;font-size:14px;cursor:pointer;
+}
+.modal-confirm{
+  flex:1;padding:12px;background:var(--cyan);border:none;
+  border-radius:10px;color:#07050f;font-weight:700;font-size:14px;cursor:pointer;
+  transition:box-shadow .2s;
+}
+.modal-confirm:hover{box-shadow:var(--glow-c)}
+.modal-confirm:disabled{opacity:.5;cursor:not-allowed;box-shadow:none}
+.modal-status{
+  margin-top:14px;font-size:13px;font-weight:600;text-align:center;min-height:20px;
+}
+.modal-status.success{color:var(--cyan)}
+.modal-status.error{color:var(--pink)}
+
+/* ─── RESPONSIVE ─── */
+@media(max-width:600px){
+  .input-row{flex-direction:column}
+  .product-grid{grid-template-columns:1fr 1fr}
+  .tabs{gap:6px}
+  .tab{padding:7px 12px;font-size:12px}
+}
+@media(max-width:400px){
+  .product-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="index.html">
+      <div class="brand-icon">PS</div>
+      <div>
+        <div class="brand-name">ARCADE-PS</div>
+        <div class="brand-sub">GROWTOPIA SERVER</div>
+      </div>
+    </a>
+    <div class="header-right">
+      <div class="growid-badge" id="header-badge" style="display:none">
+        <span class="dot"></span>
+        <span id="header-growid">—</span>
+      </div>
+      <a class="back-btn" href="index.html">← Back</a>
+    </div>
+  </div>
+</header>
+
+<main class="page">
+
+  <!-- ══ STEP 1: VERIFY GATE ══ -->
+  <div id="verify-gate" class="verify-gate">
+    <span class="gate-icon">🎮</span>
+    <div class="gate-title">Enter your GrowID</div>
+    <p class="gate-desc">We'll verify your account before showing the shop. Make sure you've logged in-game at least once.</p>
+    <div class="input-row">
+      <input
+        class="growid-input"
+        id="growid-input"
+        type="text"
+        placeholder="Your GrowID..."
+        maxlength="20"
+        autocomplete="off"
+        spellcheck="false"
+      />
+      <button class="verify-btn" id="verify-btn" onclick="verifyGrowID()">Verify</button>
+    </div>
+    <div class="gate-error" id="gate-error"></div>
+    <p class="gate-note">Your GrowID is only used to deliver purchased items to your in-game mailbox. We never store passwords.</p>
+  </div>
+
+  <!-- ══ STEP 2: SHOP ══ -->
+  <div id="shop-section" style="display:none">
+
+    <div class="shop-header">
+      <div class="shop-welcome">
+        <div class="shop-welcome-text">
+          <h1>Welcome, <span id="welcome-name" style="color:var(--cyan)">—</span>!</h1>
+          <p>Choose a category and pick your upgrade. Items are delivered to your in-game mailbox.</p>
+        </div>
+        <button class="change-btn" onclick="resetGrowID()">Change GrowID</button>
+      </div>
+
+      <!-- CATEGORY TABS -->
+      <div class="tabs" id="tabs">
+        <button class="tab active" onclick="filterCategory('all', this)">🛒 All</button>
+        <button class="tab" onclick="filterCategory('currency', this)">💎 Currency</button>
+        <button class="tab" onclick="filterCategory('roles', this)">👑 Roles</button>
+        <button class="tab" onclick="filterCategory('titles', this)">🏷️ Titles</button>
+        <button class="tab" onclick="filterCategory('items', this)">🎁 Items</button>
+        <button class="tab" onclick="filterCategory('levels', this)">⭐ Levels</button>
+        <button class="tab" onclick="filterCategory('gems', this)">💠 Gems</button>
+      </div>
+    </div>
+
+    <!-- PRODUCT GRID -->
+    <div class="product-grid" id="product-grid"></div>
+  </div>
+
+</main>
+
+<!-- CONFIRM MODAL -->
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <div class="modal-title" id="modal-title">Confirm Purchase</div>
+    <div class="modal-product" id="modal-product">—</div>
+    <span class="modal-price" id="modal-price">—</span>
+    <div class="modal-note">
+      Items will be sent to <strong id="modal-growid" style="color:var(--cyan)">—</strong>'s in-game mailbox within seconds of purchase. Make sure your mailbox is not full.
+    </div>
+    <div class="modal-btns">
+      <button class="modal-cancel" onclick="closeModal()">Cancel</button>
+      <button class="modal-confirm" id="modal-confirm" onclick="confirmPurchase()">Confirm Purchase</button>
+    </div>
+    <div class="modal-status" id="modal-status"></div>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════════════════════════════════
+// ★  CONFIG — update these when ready
+// ══════════════════════════════════════════════════════════════════
+const CONFIG = {
+  verifyEndpoint: '/api/verify-growid',   // ← your Next.js API route
+  purchaseEndpoint: '/api/purchase',       // ← your Next.js purchase route (add when ready)
+};
+// ══════════════════════════════════════════════════════════════════
+
+// ── PRODUCTS CATALOG ──
+// Add/edit products here. categories: currency | roles | titles | items | levels | gems
+const PRODUCTS = [
+  // ── Currency ──
+  {
+    id: 'rpl_100',
+    category: 'currency',
+    icon: '💎',
+    name: '100 RPL',
+    desc: 'Premium currency used to buy exclusive items in the Arcade-PS store.',
+    price: '$1.99',
+    badge: 'Currency',
+    badgeBg: 'rgba(0,245,212,.1)',badgeColor:'var(--cyan)',badgeBorder:'rgba(0,245,212,.25)',
+    accent: 'linear-gradient(90deg,var(--cyan),var(--purple))',
+  },
+  {
+    id: 'rpl_500',
+    category: 'currency',
+    icon: '💎',
+    name: '500 RPL',
+    desc: 'Great value pack of premium currency. Best for regular shoppers.',
+    price: '$8.99',
+    badge: 'Popular',
+    badgeBg: 'rgba(255,226,52,.1)',badgeColor:'var(--yellow)',badgeBorder:'rgba(255,226,52,.25)',
+    accent: 'linear-gradient(90deg,var(--yellow),#f59e0b)',
+  },
+  {
+    id: 'rpl_1200',
+    category: 'currency',
+    icon: '💎',
+    name: '1200 RPL',
+    desc: 'Mega bundle with bonus RPL — the best deal in the shop.',
+    price: '$18.99',
+    badge: 'Best Value',
+    badgeBg: 'rgba(255,45,120,.1)',badgeColor:'var(--pink)',badgeBorder:'rgba(255,45,120,.25)',
+    accent: 'linear-gradient(90deg,var(--pink),var(--purple))',
+  },
+
+  // ── Roles ──
+  {
+    id: 'role_vip',
+    category: 'roles',
+    icon: '👑',
+    name: 'VIP Role',
+    desc: 'Get the VIP tag, exclusive chat color, and access to VIP-only worlds.',
+    price: '$4.99',
+    badge: 'Role',
+    badgeBg: 'rgba(185,75,255,.1)',badgeColor:'var(--purple)',badgeBorder:'rgba(185,75,255,.25)',
+    accent: 'linear-gradient(90deg,var(--purple),#7c3aed)',
+  },
+  {
+    id: 'role_supporter',
+    category: 'roles',
+    icon: '🌟',
+    name: 'Supporter Role',
+    desc: 'Show your support with the Supporter badge and bonus daily rewards.',
+    price: '$9.99',
+    badge: 'Role',
+    badgeBg: 'rgba(185,75,255,.1)',badgeColor:'var(--purple)',badgeBorder:'rgba(185,75,255,.25)',
+    accent: 'linear-gradient(90deg,var(--purple),var(--pink))',
+  },
+
+  // ── Titles ──
+  {
+    id: 'title_legend',
+    category: 'titles',
+    icon: '🏷️',
+    name: 'Legend Title',
+    desc: 'Display the "Legend" title above your name in-game.',
+    price: '$2.99',
+    badge: 'Title',
+    badgeBg: 'rgba(255,226,52,.1)',badgeColor:'var(--yellow)',badgeBorder:'rgba(255,226,52,.25)',
+    accent: 'linear-gradient(90deg,var(--yellow),#f59e0b)',
+  },
+  {
+    id: 'title_arcade',
+    category: 'titles',
+    icon: '🎮',
+    name: 'Arcade Master Title',
+    desc: 'Exclusive "Arcade Master" title — only available in this shop.',
+    price: '$3.99',
+    badge: 'Exclusive',
+    badgeBg: 'rgba(255,45,120,.1)',badgeColor:'var(--pink)',badgeBorder:'rgba(255,45,120,.25)',
+    accent: 'linear-gradient(90deg,var(--pink),var(--purple))',
+  },
+
+  // ── Items ──
+  {
+    id: 'item_wing',
+    category: 'items',
+    icon: '🪽',
+    name: 'Angel Wings',
+    desc: 'Rare cosmetic wings delivered straight to your mailbox.',
+    price: '$5.99',
+    badge: 'Item',
+    badgeBg: 'rgba(0,245,212,.1)',badgeColor:'var(--cyan)',badgeBorder:'rgba(0,245,212,.25)',
+    accent: 'linear-gradient(90deg,var(--cyan),#0077b6)',
+  },
+  {
+    id: 'item_cape',
+    category: 'items',
+    icon: '🦸',
+    name: 'Hero Cape',
+    desc: 'Stand out with the limited Hero Cape item.',
+    price: '$4.49',
+    badge: 'Item',
+    badgeBg: 'rgba(0,245,212,.1)',badgeColor:'var(--cyan)',badgeBorder:'rgba(0,245,212,.25)',
+    accent: 'linear-gradient(90deg,#00b4d8,#0077b6)',
+  },
+
+  // ── Levels ──
+  {
+    id: 'level_10',
+    category: 'levels',
+    icon: '⭐',
+    name: '+10 Levels',
+    desc: 'Instantly boost your character level by 10.',
+    price: '$3.49',
+    badge: 'Level',
+    badgeBg: 'rgba(255,226,52,.1)',badgeColor:'var(--yellow)',badgeBorder:'rgba(255,226,52,.25)',
+    accent: 'linear-gradient(90deg,var(--yellow),#f59e0b)',
+  },
+  {
+    id: 'level_50',
+    category: 'levels',
+    icon: '🌠',
+    name: '+50 Levels',
+    desc: 'Jump ahead 50 levels in one go. Best deal for leveling up fast.',
+    price: '$12.99',
+    badge: 'Best Deal',
+    badgeBg: 'rgba(255,45,120,.1)',badgeColor:'var(--pink)',badgeBorder:'rgba(255,45,120,.25)',
+    accent: 'linear-gradient(90deg,var(--yellow),var(--pink))',
+  },
+
+  // ── Gems ──
+  {
+    id: 'gems_10k',
+    category: 'gems',
+    icon: '💠',
+    name: '10,000 Gems',
+    desc: 'A quick top-up of in-game gems for crafting and trading.',
+    price: '$1.49',
+    badge: 'Gems',
+    badgeBg: 'rgba(0,180,216,.1)',badgeColor:'#60e0ff',badgeBorder:'rgba(0,180,216,.25)',
+    accent: 'linear-gradient(90deg,#00b4d8,#0077b6)',
+  },
+  {
+    id: 'gems_100k',
+    category: 'gems',
+    icon: '💠',
+    name: '100,000 Gems',
+    desc: 'A massive gem pack — enough for all your in-game needs.',
+    price: '$10.99',
+    badge: 'Mega Pack',
+    badgeBg: 'rgba(0,245,212,.1)',badgeColor:'var(--cyan)',badgeBorder:'rgba(0,245,212,.25)',
+    accent: 'linear-gradient(90deg,var(--cyan),#0077b6)',
+  },
+];
+
+// ── STATE ──
+let currentGrowID = sessionStorage.getItem('arcade_growid') || null;
+let currentProduct = null;
+
+// ── INIT ──
+window.addEventListener('DOMContentLoaded', () => {
+  if (currentGrowID) {
+    showShop(currentGrowID);
+  }
+
+  const input = document.getElementById('growid-input');
+  input?.addEventListener('keydown', e => { if (e.key === 'Enter') verifyGrowID(); });
+});
+
+// ── VERIFY GROWID ──
+async function verifyGrowID() {
+  const input = document.getElementById('growid-input');
+  const btn   = document.getElementById('verify-btn');
+  const errEl = document.getElementById('gate-error');
+  const growid = input.value.trim();
+
+  errEl.textContent = '';
+
+  if (!growid || growid.length < 3) {
+    errEl.textContent = 'GrowID must be at least 3 characters.';
+    return;
+  }
+  if (!/^[a-zA-Z0-9_]{3,20}$/.test(growid)) {
+    errEl.textContent = 'Only letters, numbers and underscore allowed (3–20 chars).';
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = 'Checking...';
+
+  try {
+    const response = await fetch(CONFIG.verifyEndpoint, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ growid }),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok || !data.success) {
+      errEl.textContent = data.error || 'Verification failed. Try again.';
+      return;
+    }
+
+    if (!data.exists) {
+      errEl.textContent = 'GrowID not found. Check spelling or log in-game first.';
+      return;
+    }
+
+    sessionStorage.setItem('arcade_growid', growid);
+    showShop(growid);
+
+  } catch (err) {
+    errEl.textContent = 'Could not reach server. Please try again.';
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Verify';
+  }
+}
+
+// ── SHOW SHOP ──
+function showShop(growid) {
+  currentGrowID = growid;
+  document.getElementById('verify-gate').style.display = 'none';
+  document.getElementById('shop-section').style.display = 'block';
+  document.getElementById('welcome-name').textContent = growid;
+  document.getElementById('header-badge').style.display = 'flex';
+  document.getElementById('header-growid').textContent = growid;
+  renderProducts(PRODUCTS);
+}
+
+// ── RESET ──
+function resetGrowID() {
+  sessionStorage.removeItem('arcade_growid');
+  currentGrowID = null;
+  document.getElementById('verify-gate').style.display = 'block';
+  document.getElementById('shop-section').style.display = 'none';
+  document.getElementById('header-badge').style.display = 'none';
+  document.getElementById('growid-input').value = '';
+  document.getElementById('gate-error').textContent = '';
+  // reset tabs
+  document.querySelectorAll('.tab').forEach((t,i) => t.classList.toggle('active', i===0));
+}
+
+// ── FILTER ──
+function filterCategory(cat, tabEl) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  tabEl.classList.add('active');
+  const filtered = cat === 'all' ? PRODUCTS : PRODUCTS.filter(p => p.category === cat);
+  renderProducts(filtered);
+}
+
+// ── RENDER ──
+function renderProducts(products) {
+  const grid = document.getElementById('product-grid');
+  if (!products.length) {
+    grid.innerHTML = '<p style="color:var(--muted);font-size:14px;padding:20px 0">No products in this category yet.</p>';
+    return;
+  }
+  grid.innerHTML = products.map(p => `
+    <div class="product-card" style="--card-accent:${p.accent}">
+      <span class="product-badge" style="background:${p.badgeBg};color:${p.badgeColor};border-color:${p.badgeBorder}">${p.badge}</span>
+      <span class="product-icon">${p.icon}</span>
+      <div class="product-name">${p.name}</div>
+      <div class="product-desc">${p.desc}</div>
+      <div class="product-price">${p.price}</div>
+      <button class="buy-btn" onclick="openModal('${p.id}')">Buy Now</button>
+    </div>
+  `).join('');
+}
+
+// ── MODAL ──
+function openModal(productId) {
+  currentProduct = PRODUCTS.find(p => p.id === productId);
+  if (!currentProduct) return;
+  document.getElementById('modal-title').textContent = 'Confirm Purchase';
+  document.getElementById('modal-product').textContent = currentProduct.icon + ' ' + currentProduct.name + ' — ' + currentProduct.desc;
+  document.getElementById('modal-price').textContent = currentProduct.price;
+  document.getElementById('modal-growid').textContent = currentGrowID;
+  document.getElementById('modal-status').textContent = '';
+  document.getElementById('modal-status').className = 'modal-status';
+  document.getElementById('modal-confirm').disabled = false;
+  document.getElementById('modal-confirm').textContent = 'Confirm Purchase';
+  document.getElementById('modal').classList.add('open');
+}
+
+function closeModal() {
+  document.getElementById('modal').classList.remove('open');
+  currentProduct = null;
+}
+
+// Close on overlay click
+document.getElementById('modal').addEventListener('click', function(e) {
+  if (e.target === this) closeModal();
+});
+
+// ── PURCHASE ──
+async function confirmPurchase() {
+  if (!currentProduct || !currentGrowID) return;
+
+  const confirmBtn = document.getElementById('modal-confirm');
+  const statusEl   = document.getElementById('modal-status');
+
+  confirmBtn.disabled = true;
+  confirmBtn.textContent = 'Processing...';
+  statusEl.textContent = '';
+  statusEl.className = 'modal-status';
+
+  try {
+    const response = await fetch(CONFIG.purchaseEndpoint, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        growid: currentGrowID,
+        product_id: currentProduct.id,
+        product_name: currentProduct.name,
+        price: currentProduct.price,
+      }),
+    });
+
+    const data = await response.json();
+
+    if (response.ok && data.success) {
+      statusEl.textContent = '✓ Purchase successful! Check your in-game mailbox.';
+      statusEl.className = 'modal-status success';
+      confirmBtn.textContent = '✓ Done!';
+      setTimeout(() => closeModal(), 3000);
+    } else {
+      statusEl.textContent = data.error || 'Purchase failed. Please try again.';
+      statusEl.className = 'modal-status error';
+      confirmBtn.disabled = false;
+      confirmBtn.textContent = 'Confirm Purchase';
+    }
+  } catch (err) {
+    statusEl.textContent = 'Could not reach server. Please try again.';
+    statusEl.className = 'modal-status error';
+    confirmBtn.disabled = false;
+    confirmBtn.textContent = 'Confirm Purchase';
+  }
+}
+</script>
+
+</body>
+</html>
