@@ -478,13 +478,12 @@ nav{
 }
 .steps-list li{
   counter-increment:s;
-  display:grid;
-  grid-template-columns:22px 1fr;
-  gap:10px;
-  align-items:start;
   font-size:12.5px;
   color:var(--text);
   line-height:1.6;
+  padding-left:32px;
+  position:relative;
+  min-height:22px;
 }
 .steps-list li::before{
   content:counter(s);
@@ -496,7 +495,8 @@ nav{
   border-radius:6px;
   color:var(--cyan);
   display:grid;place-items:center;
-  margin-top:2px;
+  position:absolute;
+  left:0;top:0;
 }
 .steps-list code{
   background:rgba(255,255,255,.06);
@@ -836,7 +836,7 @@ footer{
           <a class="btn btn-primary" href="#connect">🎮 Start Playing</a>
           <a class="btn btn-outline" href="https://discord.gg/arcadeps" target="_blank" rel="noopener">Join Discord</a>
           <a class="btn" href="https://chat.whatsapp.com/B7TjQp5YpWjCqKA2TKEn06?mode=gi_t" target="_blank" rel="noopener" style="background:#25d366;color:#fff;border-color:#1ea855">💬 WhatsApp</a>
-          <a class="btn btn-pink" href="#" target="_blank" rel="noopener">Shop</a>
+          <a class="btn btn-pink" style="opacity:.35;cursor:not-allowed;pointer-events:none;filter:grayscale(.5)" title="Shop coming soon!">Shop</a>
         </div>
         <div class="stats-row">
           <div class="stat fade-up">
@@ -956,10 +956,9 @@ footer{
           <li>Open Growtopia — it connects automatically.</li>
         </ol>
         <div class="platform-actions">
-          <a class="btn btn-primary" id="android-download-btn" href="#" download="arcade-hosts.txt">⬇ Download arcade-hosts.txt</a>
-          <button class="btn btn-outline" onclick="copyAndroidLink(this)" style="cursor:pointer">🔗 Copy Hosts Link</button>
+          <a class="btn btn-primary" id="android-download-btn" href="#" download="arcade-hosts.txt">⬇ Download hosts.txt</a>
+          <button class="btn btn-outline" onclick="copyUrl('https://arcadeps.com/android', this)" style="cursor:pointer">🔗 Android Link Host</button>
         </div>
-        <div id="android-copied-msg" style="display:none;margin-top:8px;font-size:12px;color:var(--cyan);font-weight:600">✓ Link copied!</div>
       </article>
 
       <!-- iOS -->
@@ -976,7 +975,8 @@ footer{
         </ol>
         <div class="platform-actions">
           <a class="btn btn-primary" href="https://apps.apple.com/app/surge-5-advanced-network-tool/id1442620678" target="_blank" rel="noopener">App Store ↗</a>
-          <a class="btn btn-outline" href="#" target="_blank" rel="noopener">Profile URL</a>
+          <button class="btn btn-outline" onclick="copyUrl('https://arcadeps.com/ios', this)" style="cursor:pointer">🔗 IOS Link Host</button>
+          <button class="btn btn-outline" onclick="copySurgeConfig(this)" style="cursor:pointer">📋 IOS Text Host</button>
         </div>
       </article>
 
@@ -989,7 +989,7 @@ footer{
           <li>In Finder → Go → Go to Folder → type <code>/private/etc/hosts</code>.</li>
           <li>Drag the <code>hosts</code> file to your Desktop.</li>
           <li>Open with TextEdit, paste the copied entries at the bottom and save.</li>
-          <li>Drag the file back to <code>/private/etc/</code><br> and replace the old one.</li>
+          <li>Drag the file back to <code>/private/etc/</code> and replace the old one.</li>
           <li>Open Growtopia and connect!</li>
         </ol>
         <div class="platform-actions">
@@ -1066,10 +1066,10 @@ footer{
               <span style="color:#25d366">📱 WhatsApp Group</span>
               <span class="q-action-badge">Chat</span>
             </a>
-            <a class="q-action" href="#" target="_blank" rel="noopener">
+            <div class="q-action" style="opacity:.35;cursor:not-allowed;pointer-events:none" title="Shop coming soon!">
               🛒 Purchase Hub
-              <span class="q-action-badge">Deposits</span>
-            </a>
+              <span class="q-action-badge">Soon</span>
+            </div>
             <div class="q-action" style="cursor:default">
               🎮 /deposit
               <span class="q-action-badge">In-game</span>
@@ -1174,7 +1174,7 @@ footer{
       <a href="#faq">FAQ</a>
       <a href="https://discord.gg/arcadeps" target="_blank" rel="noopener">Discord ↗</a>
       <a href="https://chat.whatsapp.com/B7TjQp5YpWjCqKA2TKEn06?mode=gi_t" target="_blank" rel="noopener" style="color:#25d366;border-color:rgba(37,211,102,.3)">WhatsApp ↗</a>
-      <a href="#" target="_blank" rel="noopener">Shop ↗</a>
+      <a style="opacity:.35;cursor:not-allowed;pointer-events:none;filter:grayscale(.4);padding:7px 14px;background:var(--surface);border:1px solid var(--border);border-radius:8px;font-size:12px;font-weight:600;color:var(--text);text-decoration:none" title="Shop coming soon!">Shop ↗</a>
     </div>
     <p class="footer-note">
       Arcade-PS is a fan-made Growtopia private server. Not affiliated with <a href="https://www.growtopiagame.com/" target="_blank" rel="noopener nofollow">Growtopia</a> or Ubisoft.<br>
@@ -1188,7 +1188,7 @@ footer{
   <a class="p" href="#connect">🎮 Connect</a>
   <a class="s" href="https://discord.gg/arcadeps" target="_blank" rel="noopener">Discord</a>
   <a style="flex:1;text-align:center;padding:13px;border-radius:10px;font-weight:700;font-size:13px;text-decoration:none;background:#25d366;color:#fff" href="https://chat.whatsapp.com/B7TjQp5YpWjCqKA2TKEn06?mode=gi_t" target="_blank" rel="noopener">WhatsApp</a>
-  <a class="s" href="#" target="_blank" rel="noopener">Shop</a>
+  <a class="s" style="opacity:.35;cursor:not-allowed;pointer-events:none;filter:grayscale(.4)" title="Shop coming soon!">Shop</a>
 </nav>
 
 <script>
@@ -1313,9 +1313,8 @@ footer{
     });
   };
 
-  // ── Android: generate download .txt and copy link ──
+  // ── Android: generate download .txt ──
   (function setupAndroid() {
-    const ip = SERVER_CONFIG.ip.replace('http://', '').replace('https://', '');
     const entries = getHostsEntries();
     const blob = new Blob([entries], { type: 'text/plain' });
     const url  = URL.createObjectURL(blob);
@@ -1323,18 +1322,32 @@ footer{
     if (dlBtn) dlBtn.href = url;
   })();
 
-  window.copyAndroidLink = function(btn) {
-    const ip = SERVER_CONFIG.ip.replace('http://', '').replace('https://', '');
-    const entries = getHostsEntries();
-    navigator.clipboard.writeText(entries).then(() => {
-      const msg = document.getElementById('android-copied-msg');
-      if (msg) msg.style.display = 'block';
+  // ── Copy a plain URL to clipboard ──
+  window.copyUrl = function(url, btn) {
+    navigator.clipboard.writeText(url).then(() => {
       const orig = btn.textContent;
       btn.textContent = '✓ Copied!';
-      setTimeout(() => {
-        btn.textContent = orig;
-        if (msg) msg.style.display = 'none';
-      }, 2500);
+      setTimeout(() => { btn.textContent = orig; }, 2500);
+    });
+  };
+
+  // ── Copy Surge config to clipboard ──
+  window.copySurgeConfig = function(btn) {
+    const ip = SERVER_CONFIG.ip.replace('http://', '').replace('https://', '');
+    const config = [
+      '[General]',
+      '',
+      '[Rule]',
+      'FINAL,DIRECT',
+      '',
+      '[Host]',
+      'www.growtopia1.com = ' + ip,
+      'www.growtopia2.com = ' + ip
+    ].join('\n');
+    navigator.clipboard.writeText(config).then(() => {
+      const orig = btn.textContent;
+      btn.textContent = '✓ Copied!';
+      setTimeout(() => { btn.textContent = orig; }, 2500);
     });
   };
 })();
